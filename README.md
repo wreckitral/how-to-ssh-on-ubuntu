@@ -41,28 +41,30 @@
    sudo netstat -tuln | grep 22
    ```
 
-### Step 4: Configure the SSH Server (Optional)
+### Step 4: Change the SSH Port (Optional)
 1. Open the SSH configuration file for editing:
    ```bash
    sudo nano /etc/ssh/sshd_config
    ```
-2. Customize settings as needed (examples):
-   - Disable root login:
-     ```text
-     PermitRootLogin no
-     ```
-   - Change the default port (e.g., 2222):
-     ```text
-     Port 2222
-     ```
-   - Allow only specific users:
-     ```text
-     AllowUsers your_username
-     ```
+2. Locate the line starting with `#Port 22`. Uncomment it and change the value to your desired port, e.g., 2222:
+   ```text
+   Port 2222
+   ```
+3. Save and exit the file.
 
-3. Restart the SSH service to apply changes:
+4. Restart the SSH service to apply the new port configuration:
    ```bash
    sudo systemctl restart ssh
+   ```
+
+5. Update the firewall to allow the new port:
+   ```bash
+   sudo ufw allow 2222/tcp
+   ```
+
+6. Test the SSH connection using the new port:
+   ```bash
+   ssh -p 2222 your_username@server_ip
    ```
 
 ---
@@ -114,7 +116,7 @@
 ## **4. Troubleshooting**
 
 - **Issue: SSH Connection Refused**
-  - Ensure the SSH service is running:
+  - Ensure the SSH service is running: 
     ```bash
     sudo systemctl status ssh
     ```
